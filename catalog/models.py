@@ -11,12 +11,19 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 NULLABLE = {'blank': True, 'null': True}
 now = django.utils.timezone.now
+fobidden_words = (
+    "казино", "криптовалюта",
+    "крипта", "биржа",
+    "дешево", "бесплатно",
+    "обман", "полиция",
+    "радар"
+)
 
 
 def validate_even(value):
     if value in settings.FORBIDDEN_WORDS:
         raise ValidationError(
-            _("%(value) использование запрещено"),
+            _("использование слова {{{%(value)s}}} запрещено"),
             params={"value": value},
         )
 
