@@ -1,0 +1,101 @@
+В форме создания рассылки нельзя выбрать несколько клиентов
+ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:992)
+что удалось выяснить, нужно установить ssl серты, как это сделать в обычном пайтон я нашел, но не в виртуальном окружении, чекал вот этот сайт https://coderoad.ru/42098126/Mac-OSX-python-ssl-SSLError-SSL-CERTIFICATE_VERIFY_FAILED-не-удалось-проверить
+In [1]: from django.core.mail import send_mail
+
+In [2]:  send_mail(
+   ...:         subject="Subject here",
+   ...:         message="Here is the mailing_services.",
+   ...:         from_email='2025.popov@mail.ru',
+   ...:         recipient_list=["2025.popov@mail.ru"],
+   ...:     )
+---------------------------------------------------------------------------
+SSLCertVerificationError                  Traceback (most recent call last)
+Cell In[2], line 1
+----> 1 send_mail(
+      2        subject="Subject here",
+      3        message="Here is the mailing_services.",
+      4        from_email='2025.popov@mail.ru',
+      5        recipient_list=["2025.popov@mail.ru"],
+      6    )
+
+File ~/Desktop/SkyPro/extreme/env/lib/python3.11/site-packages/django/core/mail/__init__.py:87, in send_mail(subject, message, from_email, recipient_list, fail_silently, auth_user, auth_password, connection, html_message)
+     84 if html_message:
+     85     mail.attach_alternative(html_message, "text/html")
+---> 87 return mail.send()
+
+File ~/Desktop/SkyPro/extreme/env/lib/python3.11/site-packages/django/core/mail/message.py:298, in EmailMessage.send(self, fail_silently)
+    294 if not self.recipients():
+    295     # Don't bother creating the network connection if there's nobody to
+    296     # send to.
+    297     return 0
+--> 298 return self.get_connection(fail_silently).send_messages([self])
+
+File ~/Desktop/SkyPro/extreme/env/lib/python3.11/site-packages/django/core/mail/backends/smtp.py:127, in EmailBackend.send_messages(self, email_messages)
+    125     return 0
+    126 with self._lock:
+--> 127     new_conn_created = self.open()
+    128     if not self.connection or new_conn_created is None:
+    129         # We failed silently on open().
+    130         # Trying to send would be pointless.
+    131         return 0
+
+File ~/Desktop/SkyPro/extreme/env/lib/python3.11/site-packages/django/core/mail/backends/smtp.py:92, in EmailBackend.open(self)
+     89 # TLS/SSL are mutually exclusive, so only attempt TLS over
+     90 # non-secure connections.
+     91 if not self.use_ssl and self.use_tls:
+---> 92     self.connection.starttls(context=self.ssl_context)
+     93 if self.username and self.password:
+     94     self.connection.login(self.username, self.password)
+
+File /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/smtplib.py:790, in SMTP.starttls(self, keyfile, certfile, context)
+    787 if context is None:
+    788     context = ssl._create_stdlib_context(certfile=certfile,
+    789                                          keyfile=keyfile)
+--> 790 self.sock = context.wrap_socket(self.sock,
+    791                                 server_hostname=self._host)
+    792 self.file = None
+    793 # RFC 3207:
+    794 # The client MUST discard any knowledge obtained from
+    795 # the server, such as the list of SMTP service extensions,
+    796 # which was not obtained from the TLS negotiation itself.
+
+File /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py:517, in SSLContext.wrap_socket(self, sock, server_side, do_handshake_on_connect, suppress_ragged_eofs, server_hostname, session)
+    511 def wrap_socket(self, sock, server_side=False,
+    512                 do_handshake_on_connect=True,
+    513                 suppress_ragged_eofs=True,
+    514                 server_hostname=None, session=None):
+    515     # SSLSocket class handles server_hostname encoding before it calls
+    516     # ctx._wrap_socket()
+--> 517     return self.sslsocket_class._create(
+    518         sock=sock,
+    519         server_side=server_side,
+    520         do_handshake_on_connect=do_handshake_on_connect,
+    521         suppress_ragged_eofs=suppress_ragged_eofs,
+    522         server_hostname=server_hostname,
+    523         context=self,
+    524         session=session
+    525     )
+
+File /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py:1075, in SSLSocket._create(cls, sock, server_side, do_handshake_on_connect, suppress_ragged_eofs, server_hostname, context, session)
+   1072         if timeout == 0.0:
+   1073             # non-blocking
+   1074             raise ValueError("do_handshake_on_connect should not be specified for non-blocking sockets")
+-> 1075         self.do_handshake()
+   1076 except (OSError, ValueError):
+   1077     self.close()
+
+File /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ssl.py:1346, in SSLSocket.do_handshake(self, block)
+   1344     if timeout == 0.0 and block:
+   1345         self.settimeout(None)
+-> 1346     self._sslobj.do_handshake()
+   1347 finally:
+   1348     self.settimeout(timeout)
+
+SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:992)
+
+In [3]:
+
+
+
+исправить админку что бы можно было редактировать карточки там

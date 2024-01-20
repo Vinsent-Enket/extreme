@@ -1,0 +1,20 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load my_filters %}
+
+{% block content %}
+{% for object in object_list %}
+
+<div class="col-4">
+     <div class="card" style="width: 25rem, height: 25rem;">
+         <h4> {{object}} </h4>
+         <p> {{object.body}} </p>
+         <br>
+     </div>
+    <a class="btn btn-dark" href="{% url 'mailing_services:message_update' object.pk %} ">Редактировать</a>
+    <a class="btn btn-danger" href="{% url 'mailing_services:message_delete' object.pk %} ">Удалить</a>
+
+</div>
+
+{% endfor %}
+{% endblock %}
