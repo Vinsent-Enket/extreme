@@ -1,0 +1,29 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load my_filters %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        {% for object in object_list %}
+        <div class="col-4">
+            <div class="card">
+                <h4 class="my-0 fw-normal"> {{object}} </h4>
+                <h1 class="card-title"> {{object.header}} </h1>
+                <h3>Количество просмотров - {{object.views_count}} </h3>
+                 {% if object.images%}
+                <img src="{{ object.preview|mymedia }}" class="card-img-top" alt="..." width="500" height="600">
+                {% else %}
+                <img src="{% static 'images/apu-upal-i-uronil-edu.jpg' %}" alt="..." width="500" height="600">
+                {% endif %}
+                <p>{{ object.text|trim_to }}...смотреть продолжение в источнике</p>
+                <div class="btn-group" role="group" aria-label="Группа кнопок с вложенным раскрывающимся списком">
+                    <a href="{% url 'catalog:blog_details' object.pk %}" class="btn btn-dark">К подробностям</a>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

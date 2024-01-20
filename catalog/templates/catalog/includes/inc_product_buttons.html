@@ -1,0 +1,15 @@
+<div class="btn-group" role="group" aria-label="Группа кнопок с вложенным раскрывающимся списком">
+    <button type="button" class="btn btn-dark">Купить сейчас</button>
+    <button type="button" class="btn btn-dark">В корзину</button>
+    <button type="button" class="btn btn-dark">В избранное</button>
+    <a href="{% url 'catalog:product_details' object.pk %}" class="btn btn-dark">К товару</a>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">Доп
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'catalog:blog_create'%}">Написать отзыв</a></li>
+            <li><a class="dropdown-item" href="#">Выпадающая ссылка</a></li>
+        </ul>
+    </div>
+</div>
