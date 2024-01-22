@@ -39,7 +39,13 @@ INSTALLED_APPS = [
     'catalog',
     'mailing_services',
     'django_celery_beat',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -132,29 +138,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = False
-# EMAIL_HOST_USER = os.getenv('EMAIL_LOGIN')
-# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-# EMAIL_HOST = 'smtp.mail.ru'
-# EMAIL_PORT = 2525
-# EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = False
-# EMAIL_HOST_USER = '2025.popov@mail.ru'
-# EMAIL_HOST_PASSWORD = 'uR_y41rpgIYI'
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = 'smtp.yandex.ru'
 
 EMAIL_PORT = 465
-EMAIL_HOST_USER = "dvuxsotuy@yandex.ru"
-EMAIL_HOST_PASSWORD = "zanta2-Zoknad-jaxmid"
+EMAIL_HOST_USER = os.getenv('YANDEX_LOGIN')
+EMAIL_HOST_PASSWORD = os.getenv('YANDEX_PASS')
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
@@ -178,9 +169,6 @@ if CACHE_ENABLED:
             "TIMEOUT": 300
         }
     }
-
-SUPERUSER_EMAIL = os.getenv('SUPERUSER_EMAIL', 'admin@yandex.ru')
-SUPERUSER_PASSWORD = os.getenv('SUPERUSER_PASSWORD', '456852')
 
 FORBIDDEN_WORDS: tuple[str, ...] = (
     "казино", "криптовалюта",
