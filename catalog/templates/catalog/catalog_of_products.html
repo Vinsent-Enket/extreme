@@ -1,0 +1,30 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load my_filters %}
+{% load my_tags %}
+
+
+{% block content %}
+
+    {% for object in object_list %}
+    <div class="col-4">
+        <div class="card bg-secondary">
+            <div class="card-header py-3">
+                <h4 class="my-0 fw-normal"> {{object}} </h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title"> {{object.price}}$ </h1>
+                {% if object.images%}
+                <img src="{{ object.images|mymedia }}" class="card-img-top" alt="..." width="500" height="600">
+                {% else %}
+                <img src="{% static 'images/apu-upal-i-uronil-edu.jpg' %}" alt="..." width="500" height="600">
+                {% endif %}
+                <p>{{ object.description|trim_to }}</p>
+                {% include 'catalog/includes/inc_product_buttons.html' %}
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+{% endblock %}

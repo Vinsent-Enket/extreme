@@ -1,6 +1,8 @@
 {% extends 'catalog/base.html' %}
 {% load static %}
 {% load my_filters %}
+{% load crispy_forms_tags %}
+
 
 {% block content %}
 
@@ -12,7 +14,7 @@
         <div class="card-body">
             <form method="post" action="" class="form-floating">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form|crispy }}
                 <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Отправить данные</button>
             </form>
         </div>

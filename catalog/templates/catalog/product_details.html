@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load my_filters %}
+{% load my_tags %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-6">
+        <div class="card mb-3">
+            <div class="card-header py-3">
+                <h4 class="my-0 fw-normal"> {{object_list.1}} </h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title"> {{object}}$ </h1>
+                <img src="{{ object.images|mymedia }}" class="card-img-top" alt="..." width="500" height="500">
+
+                <p>{{ object.description}}</p>
+                {% include 'catalog/includes/inc_product_buttons.html' %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
