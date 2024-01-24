@@ -1,0 +1,12 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load my_filters %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<h1>Регистрация прошла успешно</h1>
+
+<a class="nav-link active" aria-current="page" href="{% url 'users:login' %}">Войти</a>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load my_filters %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<h1>Письмо было отправлено на электронную почту, пройдите по ссылке и подтвердите регистрацию'</h1>
+<a class="nav-link active" aria-current="page" href="{% url 'catalog:index' %}">Главная</a>
+
+
+{% endblock %}

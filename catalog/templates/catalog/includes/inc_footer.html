@@ -1,40 +1,54 @@
 <div class="container-fluid">
 
-        <footer>
-            <div class="row">
+    <footer>
+        <div class="row">
 
-                <div class="col-12 col-md">
-                    <h5>Ваши товары</h5>
-                    <ul class="list-unstyled text-small">
-                        <li class="mb-1"><a class="link-secondary text-decoration-none" href="{% url 'catalog:product_create' %}">Создать товар</a></li>
-                        <li class="mb-1"><a class="dropdown-item" href="{% url 'catalog:version_create' %} " >Создать новую версию</a></li>
-                        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
-                        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Stuff for
-                            developers</a>
-                        </li>
-                        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another one</a></li>
-                        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Last time</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md">
-                    <h5>Сообщения и рассылки</h5>
-                    <ul class="list-unstyled text-small">
-                        <li><a class="dropdown-item" href="{% url 'mailing_services:mailing_create' %}">Создать рассылку</a></li>
-                        <li><a class="dropdown-item" href="{% url 'mailing_services:mailings_list' %} " >Все рассылки</a></li>
-                        <li <a class="dropdown-item" href="{% url 'mailing_services:mailing_log_list' %} " >Все логи</a>
-                        </li>
-                        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md">
-                    <h5>About</h5>
-                    <ul class="list-unstyled text-small">
-                        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team</a></li>
-                        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
-                        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
-                        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
-                    </ul>
-                </div>
+            <div class="col-12 col-md">
+                <h5>Ваши товары</h5>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                                        href="{% url 'catalog:product_create' %}">Создать товар</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                                        href="{% url 'catalog:version_create' %} ">Создать новую версию</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Stuff for
+                        developers</a>
+                    </li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another one</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Last time</a></li>
+                </ul>
             </div>
-        </footer>
-    </div>
+            <div class="col-6 col-md">
+                <h5>Сообщения и рассылки</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary text-decoration-none"
+                           href="{% url 'mailing_services:mailing_create' %}">Создать рассылку</a></li>
+                    <li><a class="link-secondary text-decoration-none"
+                           href="{% url 'mailing_services:mailings_list' %} ">Все рассылки</a></li>
+                    <li><a class="link-secondary text-decoration-none"
+                           href="{% url 'mailing_services:message_create' %} ">Создать сообщение</a></li>
+                    <li><a class="link-secondary text-decoration-none"
+                           href="{% url 'mailing_services:messages_list' %} ">Все сообщения</a></li>
+                    <li><a class="link-secondary text-decoration-none"
+                           href="{% url 'mailing_services:messages_list' %} ">Оставить контактные данные</a></li>
+                    <li><a class="link-secondary text-decoration-none"
+                           href="{% url 'mailing_services:messages_list' %} ">Все контактные данные</a></li>
+
+                    <li><a class="link-secondary text-decoration-none"
+                           href="{% url 'mailing_services:mailing_log_list' %} ">Все логи</a>
+                    </li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>About</h5>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
