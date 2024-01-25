@@ -22,6 +22,12 @@ class ProductCreateView(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog_of_products')
 
+    def form_validate(self, form):
+        response = super().form_valid(form)
+        self.object.proprietor = self.request.user
+        self.object.save()
+        return response
+
 
 class ProductDetailView(DetailView):
     model = Product
