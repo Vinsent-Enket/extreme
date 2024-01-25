@@ -69,11 +69,12 @@ class Product(models.Model):
     images = models.ImageField(upload_to='product/', verbose_name='Картинка', **NULLABLE,
                                default='apu-upal-i-uronil-edu.jpg')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
-    proprietor = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
+    proprietor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Владелец')
+
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Цена')
     date_of_creation = models.DateField(verbose_name='Дата создания', default=now)
     date_of_change = models.DateField(verbose_name='Дата изменения', default=now)
-    version = models.ManyToOneRel
+    # version = models.ManyToOneRel
 
     # posts = models.ManyToManyField(Blog, verbose_name='Отзывы о товаре', **NULLABLE)
 

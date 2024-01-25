@@ -8,6 +8,7 @@ from catalog.models import Product, Blog, Version
 
 
 def index(request):
+    print(request.user.get_id())
     return render(request, 'catalog/index.html')
 
 
@@ -22,11 +23,12 @@ class ProductCreateView(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog_of_products')
 
-    def form_validate(self, form):
-        response = super().form_valid(form)
+    def form_valid(self, form):
+        self.object = form.save()
         self.object.proprietor = self.request.user
         self.object.save()
-        return response
+
+        return super().form_valid(form)
 
 
 class ProductDetailView(DetailView):
