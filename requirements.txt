@@ -6,3 +6,5 @@ pillow
 ipython
 pytils
 django-crispy-forms
+crispy-bootstrap5
+pytz
