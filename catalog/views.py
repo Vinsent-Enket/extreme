@@ -8,7 +8,6 @@ from catalog.models import Product, Blog, Version
 
 
 def index(request):
-    print(request.user.get_id())
     return render(request, 'catalog/index.html')
 
 
@@ -27,6 +26,7 @@ class ProductCreateView(CreateView):
         self.object = form.save()
         self.object.proprietor = self.request.user
         self.object.save()
+        print(self.object.category)
 
         return super().form_valid(form)
 
