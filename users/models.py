@@ -12,9 +12,13 @@ class User(AbstractUser):
     phone = models.CharField(max_length=35, verbose_name='телефон', **NULLABLE)
     country = models.CharField(max_length=50, **NULLABLE, verbose_name='Страна')
     avatar = models.ImageField(upload_to='users/', verbose_name='аватар', **NULLABLE)
+    user_permissions = models.ManyToManyField(blank=True, help_text='Specific permissions for this user.',
+                                              related_name='user_set',
+                                              related_query_name='user', to='auth.permission',
+                                              verbose_name='user permissions')
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    def __str__(self):
-        return f'{self.email}, {self.email_is_verify}'
-
+    # def __str__(self):
+    #     return int(self.pk)

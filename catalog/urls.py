@@ -3,16 +3,18 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from catalog.apps import CatalogConfig
-from catalog.views import index, CatalogListView, ProductDetailView, BlogCreateView, BlogListView, \
+from catalog.views import index, ProductListView, ProductUpdateView, ProductDetailView, BlogCreateView, BlogListView, \
     BlogDetailView, BlogUpdateView, BlogDeleteView, VersionCreateView, VersionListView, VersionUpdateView, \
-    VersionDeleteView, ProductCreateView
+    VersionDeleteView, ProductCreateView, ProductDeleteView
 
 app_name = CatalogConfig.name
 
 urlpatterns = [
     path('', index, name='index'),
-    path('catalog_of_products', CatalogListView.as_view(), name='catalog_of_products'),
+    path('catalog_of_products', ProductListView.as_view(), name='catalog_of_products'),
     path('product_create', ProductCreateView.as_view(), name='product_create'),
+    path('product_update/<int:pk>/', ProductUpdateView.as_view(), name='product_update'),
+    path('product_delete/<int:pk>/', ProductDeleteView.as_view(), name='product_delete'),
     path('product_details/<int:pk>', ProductDetailView.as_view(), name='product_details'),
     path('blog_create/', BlogCreateView.as_view(), name='blog_create'),
     path('blog_list/', BlogListView.as_view(), name='blog_list'),

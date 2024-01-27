@@ -16,7 +16,8 @@
                 <img src="{{ object.images|mymedia }}" class="card-img-top" alt="..." width="500" height="500">
 
                 <p>{{ object.description}}</p>
-                {% include 'catalog/includes/inc_product_buttons.html' %}
+                <a href="{% url 'catalog:product_update' object.pk %}" class="btn btn-dark">Редактировать</a>
+                    <a href="{% url 'catalog:product_delete' object.pk %}" class="btn btn-dark">Удалить</a>
             </div>
         </div>
 

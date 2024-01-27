@@ -69,12 +69,15 @@ class Product(models.Model):
     images = models.ImageField(upload_to='product/', verbose_name='Картинка', **NULLABLE,
                                default='apu-upal-i-uronil-edu.jpg')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
-    proprietor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Владелец')
+    proprietor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE,
+                                   verbose_name='Владелец')
 
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Цена')
     date_of_creation = models.DateField(verbose_name='Дата создания', default=now)
     date_of_change = models.DateField(verbose_name='Дата изменения', default=now)
     # version = models.ManyToOneRel
+
+    published_status = models.BooleanField(default=False, verbose_name='Было опубликовано')
 
     # posts = models.ManyToManyField(Blog, verbose_name='Отзывы о товаре', **NULLABLE)
 
@@ -85,7 +88,10 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'товар'  # Настройка для наименования одного объекта
         verbose_name_plural = 'товары'  # Настройка для наименования набора объектов
-        ordering = ('description',)
+        ordering = ('id',)
+        permissions = [('set_published_status', 'Can publish product'),
+                       ('change_description', 'Can change description'),
+                       ('change_category', 'Can change category'), ]
 
 
 class Version(models.Model):

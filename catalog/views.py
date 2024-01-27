@@ -5,19 +5,24 @@ from pytils.translit import slugify
 
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Blog, Version
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Permission
+from users.models import User
 
 
+@login_required
 def index(request):
     return render(request, 'catalog/index.html')
 
 
-class CatalogListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'catalog/catalog_of_products.html'
     # template_name = 'catalog/catalog_test.html'
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog_of_products')
@@ -26,17 +31,40 @@ class ProductCreateView(CreateView):
         self.object = form.save()
         self.object.proprietor = self.request.user
         self.object.save()
-        print(self.object.category)
-
         return super().form_valid(form)
 
 
-class ProductDetailView(DetailView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:catalog_of_products')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        if self.request.user != self.object.proprietor:
+            reverse_lazy('catalog:catalog_of_products')
+            print('это не твой продукт брысь')
+            form.add_error(None, 'это не твой продукт брысь')
+            return super().form_invalid(form)
+        self.object.proprietor = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('catalog:product_details', args=[self.kwargs.get('pk')])
+
+
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'catalog/product_details.html'
 
 
-class BlogCreateView(CreateView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    model = Product
+    success_url = reverse_lazy('catalog:catalog_of_products')
+
+
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
     fields = ('header', 'text', 'preview',)
     success_url = reverse_lazy('catalog:index')
@@ -49,7 +77,7 @@ class BlogCreateView(CreateView):
         return super().form_valid(form)
 
 
-class BlogListView(ListView):
+class BlogListView(LoginRequiredMixin, ListView):
     model = Blog
     template_name = 'catalog/blog_list.html'
 
@@ -59,7 +87,7 @@ class BlogListView(ListView):
         return queryset
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
     fields = ('header', 'slug', 'text', 'preview')
 
@@ -74,7 +102,7 @@ class BlogUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class BlogDetailView(DetailView):
+class BlogDetailView(LoginRequiredMixin, DetailView):
     model = Blog
     template_name = 'catalog/blog_details.html'
 
@@ -86,23 +114,23 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
     success_url = reverse_lazy('catalog:blog_list')
 
 
-class VersionCreateView(CreateView):
+class VersionCreateView(LoginRequiredMixin, CreateView):
     model = Version
     form_class = VersionForm
     success_url = reverse_lazy('catalog:version_list')
 
 
-class VersionListView(ListView):
+class VersionListView(LoginRequiredMixin, ListView):
     model = Version
     template_name = 'catalog/version_list.html'
 
 
-class VersionUpdateView(UpdateView):
+class VersionUpdateView(LoginRequiredMixin, UpdateView):
     model = Version
     form_class = VersionForm
     success_url = reverse_lazy('catalog:index')

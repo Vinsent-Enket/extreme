@@ -5,15 +5,19 @@ from pytils.translit import slugify
 
 from mailing_services.models import Client, Message, Mailing, MailingLogs
 
-from mailing_services.tools.mailing_tool import MessageService, send_mailing, sender
+from mailing_services.tools.mailing_tool import MessageService, send_mailing
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
+
+@login_required
 def contacts(request):
     return render(request, 'mailing_services/contacts.html')
 
 
 # Create your views here.
-class ClientCreateView(CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     fields = ('email', 'name', 'comments',)
     success_url = reverse_lazy('catalog:index')
@@ -26,12 +30,12 @@ class ClientCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ClientListView(ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     model = Client
     template_name = 'mailing_services/client_list.html'
 
 
-class ClientUpdateView(UpdateView):
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     fields = ('email', 'name', 'comments',)
     success_url = reverse_lazy('catalog:index')
@@ -48,15 +52,15 @@ class ClientUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('mailing_services:client_list')
 
 
-class MessageCreateView(CreateView):
+class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     fields = ('header', 'body',)
-    success_url = reverse_lazy('mailing_services:message_list')
+    success_url = reverse_lazy('mailing_services:messages_list')
 
     def form_valid(self, form):
         if form.is_valid():
@@ -65,7 +69,7 @@ class MessageCreateView(CreateView):
             return super().form_valid(form)
 
 
-class MessageListView(ListView):
+class MessageListView(LoginRequiredMixin, ListView):
     model = Message
     template_name = 'mailing_services/messages_list.html'
 
@@ -82,18 +86,17 @@ class MessageUpdateView(UpdateView):
             return super().form_valid(form)
 
 
-class MessageDeleteView(DeleteView):
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
     success_url = reverse_lazy('mailing_services:message_list')
 
 
-class MailingCreateView(CreateView):
+class MailingCreateView(LoginRequiredMixin, CreateView):
     model = Mailing
     fields = ('time', 'regularity', 'client', 'message')
     success_url = reverse_lazy('mailing_services:mailings_list')
 
     def form_valid(self, form):
-        """Если форма валидна, то при создании рассылки запускается периодическая задача и изменяется статус рассылки"""
         mailing = form.save(commit=False)
         mailing.user = self.request.user
         mailing.status = 'created'
@@ -109,16 +112,16 @@ class MailingCreateView(CreateView):
         return super(MailingCreateView, self).form_valid(form)
 
 
-class MailingListView(ListView):
+class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
     template_name = 'mailing_services/mailings_list.html'
 
 
-class MailingUpdateView(UpdateView):
+class MailingUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('mailing_services:mailings_list')
     model = Mailing
 
-    fields = ('time', 'regularity', 'client', 'mailing_services')
+    fields = ('time', 'regularity', 'client', 'message')
 
     def form_valid(self, form):
         if form.is_valid():
@@ -128,12 +131,12 @@ class MailingUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class MailingDeleteView(DeleteView):
+class MailingDeleteView(LoginRequiredMixin, DeleteView):
     model = Mailing
     success_url = reverse_lazy('mailing_services:mailings_list')
 
 
-class MailingLogListView(ListView):
+class MailingLogListView(LoginRequiredMixin, ListView):
     """Представление для просмотра всех попыток рассылок"""
     model = MailingLogs
     template_name = 'mailing_services/mailinglog_list.html'
