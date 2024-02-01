@@ -4,14 +4,21 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from pytils.translit import slugify
 
 from catalog.forms import ProductForm, VersionForm
-from catalog.models import Product, Blog, Version
+from catalog.models import Product, Blog, Version, Category
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.cache import cache_page
+from django.conf import settings
+from django.core.cache import cache
+
 from django.contrib.auth.models import Permission
+
+from catalog.services import get_cached_categories
 from users.models import User
 
 
 @login_required
+@cache_page(60)
 def index(request):
     return render(request, 'catalog/index.html')
 
@@ -19,7 +26,26 @@ def index(request):
 class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'catalog/catalog_of_products.html'
-    # template_name = 'catalog/catalog_test.html'
+    context_object_name = 'products'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        # active_versions = Version.objects.filter(is_active=True)
+        # context['active_versions'] = active_versions
+        context['category'] = get_cached_categories()  # используем сервисную функцию
+        return context
+
+
+class CategoriesListView(ListView):
+    model = Category
+
+
+def categories(request):
+    context = {
+        'object_list': get_cached_categories(),
+        'title': 'Все категории'
+    }
+    return render(request, 'catalog/categories.html', context)
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):

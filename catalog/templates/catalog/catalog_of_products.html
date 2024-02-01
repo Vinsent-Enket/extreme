@@ -20,6 +20,7 @@
             <img src="{% static 'images/pepe.jpg' %}" alt="..." width="500" height="600">
             {% endif %}
             <p>{{ object.description|trim_to }}</p>
+            <p>{{ object.category }}</p>
             <a href="{% url 'catalog:product_details' object.pk %}" class="btn btn-primary">К товару</a>
             </div>
         </div>

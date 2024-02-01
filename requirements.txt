@@ -8,3 +8,4 @@ pytils
 django-crispy-forms
 crispy-bootstrap5
 pytz
+redis
